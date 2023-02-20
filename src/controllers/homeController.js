@@ -25,15 +25,27 @@ let getAboutPage = (req, res) => {
 let getCRUD = (req, res) => {
   return res.render("CRUD.ejs");
 };
+
 let postCRUD = async (req, res) => {
   let messenger = await CRUDService.CreateNewUser(req.body);
   console.log(messenger);
   //console.log(req.body);
   return res.send("post crud from server");
 };
+let readCRUD = async (req, res) => {
+  let data = await CRUDService.getAllUser();
+  console.log("-------------------");
+  console.log(data);
+  console.log("-------------------");
+  return res.render("readCRUD.ejs", {
+    dataRead: data,
+  });
+  //return res.send("read crud from server");
+};
 module.exports = {
   getHomePage: getHomePage,
   getAboutPage: getAboutPage,
   getCRUD: getCRUD,
   postCRUD: postCRUD,
+  readCRUD: readCRUD,
 };
