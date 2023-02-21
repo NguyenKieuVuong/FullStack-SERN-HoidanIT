@@ -10,6 +10,7 @@ let initWebRoutes = (app) => {
   router.get("/get-crud", homeController.readCRUD);
   router.get("/edit-crud", homeController.editCRUD);
   router.post("/put-crud", homeController.putCRUD);
+  router.get("/delete-crud", homeController.deleteCRUD);
   //   router.get("/", (req, res) => {
   //     return res.send("Hello world width Vuong");
   //   });

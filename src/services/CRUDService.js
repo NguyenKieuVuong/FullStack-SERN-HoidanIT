@@ -66,8 +66,8 @@ let getUserInfoByID = (userID) => {
   });
 };
 let updateUserData = (data) => {
-  console.log("data from server ");
-  console.log(data);
+  // console.log("data from server ");
+  // console.log(data);
   return new Promise(async (resolve, reject) => {
     try {
       let user = await db.User.findOne({
@@ -93,9 +93,31 @@ let updateUserData = (data) => {
     }
   });
 };
+let deleteUserByID = (userID) => {
+  console.log("data from server ");
+  console.log(userID);
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: { id: userID },
+      });
+      if (user) {
+        // xóa dữ liệu
+        await user.destroy();
+      }
+      // lấy tất cả dữ liệu để đổ lại table
+      let userAll = db.User.findAll();
+
+      resolve(userAll);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   CreateNewUser: CreateNewUser,
   getAllUser: getAllUser,
   getUserInfoByID: getUserInfoByID,
   updateUserData: updateUserData,
+  deleteUserByID: deleteUserByID,
 };
