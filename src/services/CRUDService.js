@@ -47,4 +47,55 @@ let getAllUser = () => {
     }
   });
 };
-module.exports = { CreateNewUser: CreateNewUser, getAllUser: getAllUser };
+
+let getUserInfoByID = (userID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: { id: userID },
+        raw: true,
+      });
+      if (user) {
+        resolve(user);
+      } else {
+        resolve({});
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let updateUserData = (data) => {
+  console.log("data from server ");
+  console.log(data);
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: { id: data.id },
+      });
+      if (user) {
+        //update các trường dữ liệu
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
+        //lưu dữ liệu lên server
+        await user.save();
+
+        // lấy tất cả dữ liệu để đổ lại table
+        let userAll = db.User.findAll();
+
+        resolve(userAll);
+      } else {
+        resolve();
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+module.exports = {
+  CreateNewUser: CreateNewUser,
+  getAllUser: getAllUser,
+  getUserInfoByID: getUserInfoByID,
+  updateUserData: updateUserData,
+};
